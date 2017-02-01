@@ -12,7 +12,15 @@ var ApproveApi = require('./approve-api');
 var AddAppApi = require('./add-app-api');
 var TagsApi = require('./tags-api');
 var jwt = require('jsonwebtoken');
-var appConfig = require('config');
+var fs = require("fs");
+var appConfig = require('nconf');
+if (!fs.existsSync(__dirname + '/config/config.json')) {
+  console.log('Warning, no config.json present. Falling back to config.default.json');
+  appConfig.file('config/config.default.json');
+} else {
+  appConfig.file('config/config.json');
+}
+
 var expressJWT = require('express-jwt');
 var UploadApi = require('./upload-api');
 var AuthApi = require('./auth-api');
@@ -23,8 +31,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var port = appConfig.get('port');        // set our port
-var routesToAuthorize = ['/api/updateapp', '/api/appprofile', 
-                        '/api/uploadlogo', '/api/addapp', 
+var routesToAuthorize = ['/api/updateapp', '/api/appprofile',
+                        '/api/uploadlogo', '/api/addapp',
                         '/api/masterprofile', '/api/categories',
                         '/api/approvedapps', '/api/tags', '/api/search'];
                         //'/api/categories',
@@ -54,7 +62,7 @@ router.use(function (req, res, next) {
 
     //console.log(`IsAuthRequiredForUrl este ${IsAuthRequiredForUrl(req.originalUrl)}`)
 
-    if (IsAuthRequiredForUrl(req.originalUrl) == true) {
+    if (IsAuthRequiredForUrl(req.originalUrl) === true) {
         // decode token
         //console.log('Required token for ' + req.originalUrl);
         if (token) {
@@ -63,7 +71,7 @@ router.use(function (req, res, next) {
             jwt.verify(token, theSecret, function (err, decoded) {
 
                 if (err) {
-                   
+
                     return res.json({ success: false, message: 'Failed to authenticate token.' });
                 } else {
                     // if everything is good, save to request for use in other routes
@@ -118,7 +126,7 @@ router.route('/auth')
         var isSentinel = req.body.issentinel;
 
         var expiresInStr = "24h";
-        if (isSentinel != undefined) {
+        if (isSentinel) {
             expiresInStr = "15m";
         }
         //console.log(`In API auth; user: ${user} ; pass: ${pass}`);
@@ -127,7 +135,7 @@ router.route('/auth')
         authapi.Authenticate(function (result) {
             //console.log(result);
             //user === "code4" && pass === "civitas123#"
-            if (result.success == true) {
+            if (result.success === true) {
                 var token = jwt.sign({ payload: user }, theSecret, {
                     expiresIn: expiresInStr
                 });
@@ -282,4 +290,4 @@ app.use('/api', router);
 // START THE SERVER
 // =============================================================================
 app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log('Civichq API started on port ' + port);
