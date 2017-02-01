@@ -1,0 +1,25 @@
+{
+    "IsDebug" : true,
+    "jwtSecret" : "",
+    "clientLocation" : "http://localhost:8381",
+    "sqlServer" : {
+        "host": "",
+        "port": "3306",
+        "dialect": "mysql",
+        "dialectOptions": {
+            "charset": "utf8"
+        }
+    },
+    "sqlLogin" : {
+        "username": "sa",
+        "password" : "",
+        "database" : "civichq"
+    },
+    "S3" : {
+        "access-key" : "",
+        "secret-key" : "",
+        "bucket-url-root" : "",
+        "bucket-app-folder" : ""
+    },
+    "port": 8080
+}
