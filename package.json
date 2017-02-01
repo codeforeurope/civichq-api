@@ -6,7 +6,7 @@
     "start": "node api/server.js"
   },
   "dependencies": {
-    "aws-sdk":"^2.6.15",
+    "aws-sdk": "^2.6.15",
     "body-parser": "^1.15.2",
     "config": "^1.21.0",
     "core-js": "^2.4.0",
@@ -16,6 +16,7 @@
     "multer": "^1.2.0",
     "multer-s3": "^2.3.2",
     "mysql": "^2.11.1",
+    "nconf": "^0.8.4",
     "password-hash-and-salt": "^0.1.4",
     "pm2": "^2.0.15",
     "reflect-metadata": "^0.1.3",
