@@ -2,6 +2,9 @@
   "name": "civiqhq",
   "version": "1.0.0",
   "license": "ISC",
+  "scripts": {
+    "start": "node api/server.js"
+  },
   "dependencies": {
     "aws-sdk":"^2.6.15",
     "body-parser": "^1.15.2",
